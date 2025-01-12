@@ -1,0 +1,19 @@
+#include <iostream>
+using namespace std;
+
+// Recursive function to solve the Josephus problem
+int josephus(int n, int k) {
+    if (n == 1) {
+        return 1; // Base case: only one person remains
+    }
+    return (josephus(n - 1, k) + k - 1) % n + 1; // Recursive step
+}
+
+int main() {
+    int n = 7; // Number of people
+    int k = 3; // Step size
+
+    cout << "The survivor is at position: " << josephus(n, k) << endl;
+
+    return 0;
+}
