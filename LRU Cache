@@ -1,0 +1,119 @@
+#include <iostream>
+#include <unordered_map>
+using namespace std;
+
+// Node structure for doubly linked list
+struct Node {
+    int key, value;
+    Node* prev;
+    Node* next;
+    Node(int k, int v) : key(k), value(v), prev(nullptr), next(nullptr) {}
+};
+
+// LRU Cache class
+class LRUCache {
+private:
+    int capacity;
+    unordered_map<int, Node*> cache; // Hash map to store key-node pairs
+    Node* head; // Dummy head of the doubly linked list
+    Node* tail; // Dummy tail of the doubly linked list
+
+    // Add a node to the front of the list (most recently used position)
+    void addNode(Node* node) {
+        node->next = head->next;
+        node->prev = head;
+        head->next->prev = node;
+        head->next = node;
+    }
+
+    // Remove a node from the list
+    void removeNode(Node* node) {
+        Node* prevNode = node->prev;
+        Node* nextNode = node->next;
+        prevNode->next = nextNode;
+        nextNode->prev = prevNode;
+    }
+
+    // Move a node to the front of the list
+    void moveToHead(Node* node) {
+        removeNode(node);
+        addNode(node);
+    }
+
+    // Remove the least recently used node (from the back of the list)
+    Node* removeTail() {
+        Node* lruNode = tail->prev;
+        removeNode(lruNode);
+        return lruNode;
+    }
+
+public:
+    // Constructor
+    LRUCache(int cap) : capacity(cap) {
+        head = new Node(-1, -1); // Dummy head
+        tail = new Node(-1, -1); // Dummy tail
+        head->next = tail;
+        tail->prev = head;
+    }
+
+    // Get the value of a key
+    int get(int key) {
+        if (cache.find(key) == cache.end()) {
+            return -1; // Key not found
+        }
+        // Move the accessed node to the front (most recently used)
+        Node* node = cache[key];
+        moveToHead(node);
+        return node->value;
+    }
+
+    // Put a key-value pair in the cache
+    void put(int key, int value) {
+        if (cache.find(key) != cache.end()) {
+            // Key already exists: update its value and move to the front
+            Node* node = cache[key];
+            node->value = value;
+            moveToHead(node);
+        } else {
+            // Key does not exist: create a new node
+            Node* newNode = new Node(key, value);
+            cache[key] = newNode;
+            addNode(newNode);
+
+            // If the cache exceeds capacity, remove the least recently used node
+            if (cache.size() > capacity) {
+                Node* lruNode = removeTail();
+                cache.erase(lruNode->key);
+                delete lruNode;
+            }
+        }
+    }
+
+    // Destructor to free allocated memory
+    ~LRUCache() {
+        Node* current = head;
+        while (current) {
+            Node* temp = current;
+            current = current->next;
+            delete temp;
+        }
+    }
+};
+
+int main() {
+    LRUCache lruCache(2); // Create an LRU cache with capacity 2
+
+    lruCache.put(1, 1); // Add (1, 1)
+    lruCache.put(2, 2); // Add (2, 2)
+    cout << "Get 1: " << lruCache.get(1) << endl; // Access key 1, Output: 1
+
+    lruCache.put(3, 3); // Add (3, 3), evicts key 2
+    cout << "Get 2: " << lruCache.get(2) << endl; // Access key 2, Output: -1 (not found)
+
+    lruCache.put(4, 4); // Add (4, 4), evicts key 1
+    cout << "Get 1: " << lruCache.get(1) << endl; // Access key 1, Output: -1 (not found)
+    cout << "Get 3: " << lruCache.get(3) << endl; // Access key 3, Output: 3
+    cout << "Get 4: " << lruCache.get(4) << endl; // Access key 4, Output: 4
+
+    return 0;
+}
