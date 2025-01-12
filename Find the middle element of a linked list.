@@ -1,0 +1,74 @@
+#include <iostream>
+using namespace std;
+
+// Definition of a linked list node
+struct Node {
+    int data;
+    Node* next;
+    Node(int val) : data(val), next(nullptr) {}
+};
+
+// Function to find the middle element of the linked list
+Node* findMiddle(Node* head) {
+    if (head == nullptr) {
+        return nullptr; // Empty list
+    }
+
+    Node* slow = head; // Moves one step at a time
+    Node* fast = head; // Moves two steps at a time
+
+    while (fast != nullptr && fast->next != nullptr) {
+        slow = slow->next;       // Move slow pointer by one
+        fast = fast->next->next; // Move fast pointer by two
+    }
+
+    return slow; // Slow pointer points to the middle node
+}
+
+// Utility function to print the linked list
+void printList(Node* head) {
+    while (head != nullptr) {
+        cout << head->data << " -> ";
+        head = head->next;
+    }
+    cout << "nullptr" << endl;
+}
+
+// Utility function to add a node at the end of the list
+void append(Node*& head, int data) {
+    if (head == nullptr) {
+        head = new Node(data);
+        return;
+    }
+    Node* temp = head;
+    while (temp->next != nullptr) {
+        temp = temp->next;
+    }
+    temp->next = new Node(data);
+}
+
+// Main function
+int main() {
+    Node* head = nullptr;
+
+    // Create a linked list
+    append(head, 1);
+    append(head, 2);
+    append(head, 3);
+    append(head, 4);
+    append(head, 5);
+
+    // Print the linked list
+    cout << "Linked List: ";
+    printList(head);
+
+    // Find the middle element
+    Node* middle = findMiddle(head);
+    if (middle != nullptr) {
+        cout << "Middle Element: " << middle->data << endl;
+    } else {
+        cout << "The list is empty." << endl;
+    }
+
+    return 0;
+}
