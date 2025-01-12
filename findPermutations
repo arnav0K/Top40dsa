@@ -1,0 +1,37 @@
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+// Function to generate all permutations
+void findPermutations(string& str, int index, vector<string>& result) {
+    if (index == str.length() - 1) {
+        result.push_back(str); // Add the permutation to the result
+        return;
+    }
+
+    for (int i = index; i < str.length(); i++) {
+        swap(str[index], str[i]);         // Swap current character with the index
+        findPermutations(str, index + 1, result); // Recurse for the next index
+        swap(str[index], str[i]);         // Backtrack to restore the original order
+    }
+}
+
+// Wrapper function
+vector<string> getPermutations(string str) {
+    vector<string> result;
+    findPermutations(str, 0, result);
+    return result;
+}
+
+int main() {
+    string input = "ABC";
+    vector<string> permutations = getPermutations(input);
+
+    cout << "All permutations of the string \"" << input << "\":" << endl;
+    for (const string& perm : permutations) {
+        cout << perm << endl;
+    }
+
+    return 0;
+}
