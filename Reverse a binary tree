@@ -1,0 +1,70 @@
+#include <iostream>
+using namespace std;
+
+// Definition of a binary tree node
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) : data(val), left(nullptr), right(nullptr) {}
+};
+
+// Function to reverse (invert) a binary tree
+void reverseTree(Node* root) {
+    if (root == nullptr) {
+        return; // Base case: empty tree
+    }
+
+    // Swap the left and right children
+    Node* temp = root->left;
+    root->left = root->right;
+    root->right = temp;
+
+    // Recursively reverse the left and right subtrees
+    reverseTree(root->left);
+    reverseTree(root->right);
+}
+
+// Function to print the tree in in-order traversal
+void inOrderTraversal(Node* root) {
+    if (root == nullptr) {
+        return;
+    }
+    inOrderTraversal(root->left);
+    cout << root->data << " ";
+    inOrderTraversal(root->right);
+}
+
+int main() {
+    // Create a binary tree
+    Node* root = new Node(1);
+    root->left = new Node(2);
+    root->right = new Node(3);
+    root->left->left = new Node(4);
+    root->left->right = new Node(5);
+    root->right->left = new Node(6);
+    root->right->right = new Node(7);
+
+    /*
+       Original Tree:
+               1
+             /   \
+            2     3
+           / \   / \
+          4   5 6   7
+    */
+
+    cout << "Original tree (in-order): ";
+    inOrderTraversal(root); // Output: 4 2 5 1 6 3 7
+    cout << endl;
+
+    // Reverse the binary tree
+    reverseTree(root);
+
+    cout << "Reversed tree (in-order): ";
+    inOrderTraversal(root); // Output: 7 3 6 1 5 2 4
+    cout << endl;
+
+    return 0;
+}
