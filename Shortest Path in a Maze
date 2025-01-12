@@ -1,0 +1,69 @@
+#include <iostream>
+#include <queue>
+#include <vector>
+using namespace std;
+
+// Directions: up, down, left, right
+const int dx[] = {-1, 1, 0, 0};
+const int dy[] = {0, 0, -1, 1};
+
+bool isValid(int x, int y, int rows, int cols, const vector<vector<int>>& maze, vector<vector<bool>>& visited) {
+    return x >= 0 && x < rows && y >= 0 && y < cols && maze[x][y] == 0 && !visited[x][y];
+}
+
+int shortestPathInMaze(const vector<vector<int>>& maze, int sx, int sy, int dx, int dy) {
+    int rows = maze.size();
+    int cols = maze[0].size();
+    vector<vector<bool>> visited(rows, vector<bool>(cols, false));
+
+    queue<pair<pair<int, int>, int>> q; // ((x, y), distance)
+    q.push({{sx, sy}, 0});
+    visited[sx][sy] = true;
+
+    while (!q.empty()) {
+        auto [current, dist] = q.front();
+        int x = current.first, y = current.second;
+        q.pop();
+
+        // If we reach the destination
+        if (x == dx && y == dy) {
+            return dist;
+        }
+
+        // Explore all directions
+        for (int i = 0; i < 4; ++i) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+
+            if (isValid(nx, ny, rows, cols, maze, visited)) {
+                q.push({{nx, ny}, dist + 1});
+                visited[nx][ny] = true;
+            }
+        }
+    }
+
+    // If no path is found
+    return -1;
+}
+
+int main() {
+    vector<vector<int>> maze = {
+        {0, 1, 0, 0, 0},
+        {0, 1, 0, 1, 0},
+        {0, 0, 0, 1, 0},
+        {0, 1, 1, 1, 0},
+        {0, 0, 0, 0, 0}
+    };
+
+    int sx = 0, sy = 0; // Start position
+    int dx = 4, dy = 4; // Destination position
+
+    int result = shortestPathInMaze(maze, sx, sy, dx, dy);
+    if (result != -1) {
+        cout << "The shortest path is: " << result << " steps." << endl;
+    } else {
+        cout << "No path exists to the destination." << endl;
+    }
+
+    return 0;
+}
