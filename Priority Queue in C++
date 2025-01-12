@@ -1,0 +1,50 @@
+#include <iostream>
+#include <queue>
+using namespace std;
+
+int main() {
+    // Declare a max-heap priority queue
+    priority_queue<int> pq;
+
+    // Insert elements into the priority queue
+    pq.push(10);
+    pq.push(20);
+    pq.push(15);
+
+    // Print the top element (highest priority)
+    cout << "Top element: " << pq.top() << endl; // Output: 20
+
+    // Remove the top element
+    pq.pop();
+
+    // Print the top element after pop
+    cout << "Top element after pop: " << pq.top() << endl; // Output: 15
+
+    return 0;
+}
+
+
+#include <iostream>
+#include <queue>
+using namespace std;
+
+int main() {
+    // Declare a min-heap priority queue
+    priority_queue<int, vector<int>, greater<int>> pq;
+
+    // Insert elements into the priority queue
+    pq.push(10);
+    pq.push(20);
+    pq.push(15);
+
+    // Print the top element (smallest element in min-heap)
+    cout << "Top element: " << pq.top() << endl; // Output: 10
+
+    // Remove the top element
+    pq.pop();
+
+    // Print the top element after pop
+    cout << "Top element after pop: " << pq.top() << endl; // Output: 15
+
+    return 0;
+}
