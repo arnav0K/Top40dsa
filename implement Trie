@@ -1,0 +1,95 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Definition of a Trie Node
+class TrieNode {
+public:
+    TrieNode* children[26]; // Array to store child nodes for 'a' to 'z'
+    bool isEndOfWord;       // Marks if this node is the end of a word
+
+    TrieNode() : isEndOfWord(false) {
+        for (int i = 0; i < 26; i++) {
+            children[i] = nullptr; // Initialize all children to nullptr
+        }
+    }
+};
+
+// Trie Class
+class Trie {
+private:
+    TrieNode* root;
+
+    // Helper function to convert a character to an array index
+    int charToIndex(char c) {
+        return c - 'a';
+    }
+
+public:
+    // Constructor
+    Trie() {
+        root = new TrieNode();
+    }
+
+    // Insert a word into the Trie
+    void insert(const string& word) {
+        TrieNode* current = root;
+        for (char c : word) {
+            int index = charToIndex(c);
+            if (current->children[index] == nullptr) {
+                current->children[index] = new TrieNode();
+            }
+            current = current->children[index];
+        }
+        current->isEndOfWord = true; // Mark the end of the word
+    }
+
+    // Search for a word in the Trie
+    bool search(const string& word) {
+        TrieNode* current = root;
+        for (char c : word) {
+            int index = charToIndex(c);
+            if (current->children[index] == nullptr) {
+                return false; // Character not found
+            }
+            current = current->children[index];
+        }
+        return current->isEndOfWord; // Check if it's the end of a word
+    }
+
+    // Check if any word starts with the given prefix
+    bool startsWith(const string& prefix) {
+        TrieNode* current = root;
+        for (char c : prefix) {
+            int index = charToIndex(c);
+            if (current->children[index] == nullptr) {
+                return false; // Prefix not found
+            }
+            current = current->children[index];
+        }
+        return true; // Prefix exists
+    }
+};
+
+// Main Function
+int main() {
+    Trie trie;
+
+    // Insert words into the Trie
+    trie.insert("apple");
+    trie.insert("app");
+    trie.insert("banana");
+    trie.insert("bat");
+
+    // Search for words
+    cout << "Search 'apple': " << (trie.search("apple") ? "Found" : "Not Found") << endl; // Found
+    cout << "Search 'app': " << (trie.search("app") ? "Found" : "Not Found") << endl;     // Found
+    cout << "Search 'appl': " << (trie.search("appl") ? "Found" : "Not Found") << endl;   // Not Found
+
+    // Check prefixes
+    cout << "StartsWith 'app': " << (trie.startsWith("app") ? "Yes" : "No") << endl; // Yes
+    cout << "StartsWith 'bat': " << (trie.startsWith("bat") ? "Yes" : "No") << endl; // Yes
+    cout << "StartsWith 'cat': " << (trie.startsWith("cat") ? "Yes" : "No") << endl; // No
+
+    return 0;
+}
