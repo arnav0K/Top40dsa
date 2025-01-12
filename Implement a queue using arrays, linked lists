@@ -1,0 +1,173 @@
+#include <iostream>
+using namespace std;
+
+class Queue {
+private:
+    int* arr;      // Array to store elements
+    int capacity;  // Maximum size of the queue
+    int front;     // Points to the front element
+    int rear;      // Points to the last element
+    int count;     // Current size of the queue
+
+public:
+    // Constructor
+    Queue(int size) {
+        capacity = size;
+        arr = new int[capacity];
+        front = 0;
+        rear = -1;
+        count = 0;
+    }
+
+    // Destructor
+    ~Queue() {
+        delete[] arr;
+    }
+
+    // Enqueue operation
+    void enqueue(int data) {
+        if (isFull()) {
+            cout << "Queue Overflow! Cannot enqueue " << data << endl;
+            return;
+        }
+        rear = (rear + 1) % capacity;
+        arr[rear] = data;
+        count++;
+    }
+
+    // Dequeue operation
+    int dequeue() {
+        if (isEmpty()) {
+            cout << "Queue Underflow!" << endl;
+            return -1;
+        }
+        int data = arr[front];
+        front = (front + 1) % capacity;
+        count--;
+        return data;
+    }
+
+    // Peek operation
+    int peek() {
+        if (isEmpty()) {
+            cout << "Queue is empty!" << endl;
+            return -1;
+        }
+        return arr[front];
+    }
+
+    // Check if the queue is empty
+    bool isEmpty() {
+        return count == 0;
+    }
+
+    // Check if the queue is full
+    bool isFull() {
+        return count == capacity;
+    }
+};
+
+// Main function to demonstrate queue operations
+int main() {
+    Queue queue(5);
+
+    queue.enqueue(10);
+    queue.enqueue(20);
+    queue.enqueue(30);
+
+    cout << "Front element: " << queue.peek() << endl;
+
+    cout << "Dequeued element: " << queue.dequeue() << endl;
+    cout << "Front element after dequeue: " << queue.peek() << endl;
+
+    return 0;
+}
+
+
+#include <iostream>
+using namespace std;
+
+// Node structure
+struct Node {
+    int data;
+    Node* next;
+
+    Node(int val) : data(val), next(nullptr) {}
+};
+
+// Queue class
+class Queue {
+private:
+    Node* front; // Points to the front node
+    Node* rear;  // Points to the rear node
+
+public:
+    // Constructor
+    Queue() : front(nullptr), rear(nullptr) {}
+
+    // Enqueue operation
+    void enqueue(int data) {
+        Node* newNode = new Node(data);
+        if (rear == nullptr) { // If the queue is empty
+            front = rear = newNode;
+            return;
+        }
+        rear->next = newNode;
+        rear = newNode;
+    }
+
+    // Dequeue operation
+    int dequeue() {
+        if (front == nullptr) { // If the queue is empty
+            cout << "Queue Underflow!" << endl;
+            return -1;
+        }
+        Node* temp = front;
+        int data = temp->data;
+        front = front->next;
+        if (front == nullptr) {
+            rear = nullptr; // If the queue becomes empty
+        }
+        delete temp;
+        return data;
+    }
+
+    // Peek operation
+    int peek() {
+        if (front == nullptr) {
+            cout << "Queue is empty!" << endl;
+            return -1;
+        }
+        return front->data;
+    }
+
+    // Check if the queue is empty
+    bool isEmpty() {
+        return front == nullptr;
+    }
+
+    // Destructor to free memory
+    ~Queue() {
+        while (front != nullptr) {
+            Node* temp = front;
+            front = front->next;
+            delete temp;
+        }
+    }
+};
+
+// Main function to demonstrate queue operations
+int main() {
+    Queue queue;
+
+    queue.enqueue(10);
+    queue.enqueue(20);
+    queue.enqueue(30);
+
+    cout << "Front element: " << queue.peek() << endl;
+
+    cout << "Dequeued element: " << queue.dequeue() << endl;
+    cout << "Front element after dequeue: " << queue.peek() << endl;
+
+    return 0;
+}
