@@ -1,0 +1,55 @@
+#include <iostream>
+using namespace std;
+
+// Definition of a binary tree node
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) : data(val), left(nullptr), right(nullptr) {}
+};
+
+// Function to print all leaf nodes of a binary tree
+void printLeafNodes(Node* root) {
+    // Base case: if the node is null, return
+    if (root == nullptr) {
+        return;
+    }
+
+    // If the node is a leaf, print its value
+    if (root->left == nullptr && root->right == nullptr) {
+        cout << root->data << " ";
+        return;
+    }
+
+    // Recursively traverse the left and right subtrees
+    printLeafNodes(root->left);
+    printLeafNodes(root->right);
+}
+
+// Main function to test the printLeafNodes function
+int main() {
+    // Create a binary tree
+    Node* root = new Node(10);
+    root->left = new Node(5);
+    root->right = new Node(15);
+    root->left->left = new Node(2);
+    root->left->right = new Node(7);
+    root->right->right = new Node(20);
+
+    /*
+       Tree structure:
+              10
+            /    \
+           5      15
+          / \       \
+         2   7       20
+    */
+
+    cout << "Leaf nodes: ";
+    printLeafNodes(root); // Expected output: 2 7 20
+    cout << endl;
+
+    return 0;
+}
