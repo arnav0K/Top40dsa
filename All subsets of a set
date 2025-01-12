@@ -1,0 +1,43 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Recursive function to generate all subsets
+void findSubsets(vector<int>& nums, vector<int>& current, vector<vector<int>>& result, int index) {
+    if (index == nums.size()) {
+        result.push_back(current); // Add the current subset to the result
+        return;
+    }
+
+    // Exclude the current element
+    findSubsets(nums, current, result, index + 1);
+
+    // Include the current element
+    current.push_back(nums[index]);
+    findSubsets(nums, current, result, index + 1);
+    current.pop_back(); // Backtrack
+}
+
+// Function to generate all subsets of a set
+vector<vector<int>> subsets(vector<int>& nums) {
+    vector<vector<int>> result;
+    vector<int> current;
+    findSubsets(nums, current, result, 0);
+    return result;
+}
+
+int main() {
+    vector<int> nums = {1, 2, 3};
+    vector<vector<int>> result = subsets(nums);
+
+    cout << "All subsets:" << endl;
+    for (const auto& subset : result) {
+        cout << "{ ";
+        for (int num : subset) {
+            cout << num << " ";
+        }
+        cout << "}" << endl;
+    }
+
+    return 0;
+}
