@@ -1,0 +1,40 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int numRescueBoats(vector<int>& people, int limit) {
+    // Sort the people array
+    sort(people.begin(), people.end());
+
+    int left = 0, right = people.size() - 1;
+    int boats = 0;
+
+    // Use two pointers to pair people
+    while (left <= right) {
+        if (people[left] + people[right] <= limit) {
+            // They can share a boat
+            left++;
+        }
+        // Either way, the heaviest person will go alone or with the lightest
+        right--;
+        boats++;
+    }
+    return boats;
+}
+
+int main() {
+    vector<int> people1 = {1, 2};
+    int limit1 = 3;
+    cout << numRescueBoats(people1, limit1) << endl;  // Output: 1
+
+    vector<int> people2 = {3, 2, 2, 1};
+    int limit2 = 3;
+    cout << numRescueBoats(people2, limit2) << endl;  // Output: 3
+
+    vector<int> people3 = {3, 5, 3, 4};
+    int limit3 = 5;
+    cout << numRescueBoats(people3, limit3) << endl;  // Output: 4
+
+    return 0;
+}
