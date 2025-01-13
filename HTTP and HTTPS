@@ -1,0 +1,10 @@
+TTP (HyperText Transfer Protocol) is a protocol used for transferring data over the internet. 
+It defines how messages are formatted and transmitted between a client (like a web browser) and a server. 
+HTTP is used for non-secure communication, meaning data sent between the client and server is not encrypted.
+
+HTTPS (HyperText Transfer Protocol Secure) is an extension of HTTP that adds security by encrypting the data exchanged between the client and server using SSL/TLS protocols. 
+This ensures that sensitive information, like passwords or credit card details, is protected from eavesdropping or tampering.
+
+Key Differences:
+HTTP: Unsecured, no encryption.
+HTTPS: Secured, encrypted data transfer.
