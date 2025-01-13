@@ -1,0 +1,50 @@
+When to Use Which Sorting Algorithm
+Small datasets:
+
+Bubble Sort, Selection Sort, or Insertion Sort:
+These are simple, easy to implement, and perform well on small data sizes (e.g., N<50).
+Nearly sorted data:
+
+Insertion Sort:
+Best suited for data that is almost sorted, as it performs close to 
+O(N) in this case.
+
+Large datasets in memory:
+
+Merge Sort:
+It guarantees 
+O(NlogN) time complexity and is stable, making it ideal for large data when stability is needed.
+
+Quick Sort:
+Faster in practice for general use, but not stable. Care must be taken to avoid worst-case 
+O(N^2) by choosing pivots wisely (e.g., random pivot).
+
+Limited memory:
+
+Heap Sort:
+Has O(1) space complexity, making it suitable when memory usage is critical.
+
+
+Conclusion
+Stable sorting needed? Use Merge Sort, Insertion Sort, Counting Sort, or Radix Sort.
+Memory-constrained? Use Heap Sort or Quick Sort.
+Large datasets? Use Merge Sort or Quick Sort.
+Integer sorting with a known range? Use Counting Sort or Radix Sort.
+
+A stable sort is a sorting algorithm that preserves the relative order of equal elements in the input array.
+
+This means that if two elements have the same value, their relative order in the sorted output will be the same as in the input.
+
+Stable Sorting Algorithms:
+Bubble Sort
+Insertion Sort
+Merge Sort
+Counting Sort
+Radix Sort
+Unstable Sorting Algorithms:
+Selection Sort
+Heap Sort
+Quick Sort (default implementation)
+
+Small datasets  why not merge sort and quick sort
+Overhead of Recursive Calls:
