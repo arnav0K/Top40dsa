@@ -1,0 +1,38 @@
+1. Reading a File
+java
+Copy code
+import java.io.File;
+import java.util.Scanner;
+
+public class ReadFileExample {
+    public static void main(String[] args) {
+        try {
+            File file = new File("example.txt"); // File to read
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                System.out.println(scanner.nextLine()); // Print each line
+            }
+            scanner.close(); // Close the file
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+2. Writing to a File
+java
+Copy code
+import java.io.FileWriter;
+
+public class WriteFileExample {
+    public static void main(String[] args) {
+        try {
+            FileWriter writer = new FileWriter("output.txt");
+            writer.write("Hello, World!\n");
+            writer.write("This is a simple file writing example.");
+            writer.close(); // Close the file
+            System.out.println("File written successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
