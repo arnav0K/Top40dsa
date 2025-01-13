@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int solve(int amount, vector<int>& coins, int i, vector<vector<int>>& dp) {
+        if (amount == 0) {
+            return 1;  // Found a valid combination
+        }
+        if (i == coins.size() || amount < 0) {
+            return 0;  // No valid combination
+        }
+        if (dp[i][amount] != -1) {
+            return dp[i][amount];  // Return memoized result
+        }
+        
+        // Include the current coin
+        int take = solve(amount - coins[i], coins, i, dp);
+        // Exclude the current coin
+        int notTake = solve(amount, coins, i + 1, dp);
+        
+        dp[i][amount] = take + notTake;
+        return dp[i][amount];
+    }
+
+    int change(int amount, vector<int>& coins) {
+        vector<vector<int>> dp(coins.size(), vector<int>(amount + 1, -1));
+        return solve(amount, coins, 0, dp);
+    }
+};
