@@ -1,0 +1,12 @@
+TCP vs. UDP
+TCP (Transmission Control Protocol):
+
+Reliable, connection-oriented.
+Ensures data is delivered in order without loss.
+Slower due to error checking and acknowledgment.
+Use Cases: File transfers, emails, web browsing.
+UDP (User Datagram Protocol):
+
+Unreliable, connectionless.
+Faster but no guarantee of data delivery.
+Use Cases: Streaming, gaming, VoIP.
