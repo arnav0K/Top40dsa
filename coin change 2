@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int change(int amount, vector<int>& coins) {
+        if (coins.size() != 2) return 0; // Ensure only 2 coins are provided
+        
+        int coin1 = coins[0];
+        int coin2 = coins[1];
+        int count = 0;
+
+        // Iterate over all possible numbers of coin1
+        for (int count1 = 0; count1 * coin1 <= amount; ++count1) {
+            int remaining = amount - count1 * coin1;
+            // Check if the remaining amount is divisible by coin2
+            if (remaining % coin2 == 0) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+};
