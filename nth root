@@ -1,0 +1,23 @@
+def nthRoot(x, n, precision=1e-6):
+    # Edge cases
+    if x == 0:
+        return 0
+    if n == 1:
+        return x
+    
+    # Binary Search bounds
+    low, high = 0, x
+    while high - low > precision:  # Continue until the precision is small enough
+        mid = (low + high) / 2
+        if mid**n < x:
+            low = mid
+        else:
+            high = mid
+    
+    return (low + high) / 2
+
+# Example usage:
+x = 16
+n = 4
+result = nthRoot(x, n)
+print(f"The {n}th root of {x} is approximately {result}")
